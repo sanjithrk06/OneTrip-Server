@@ -3,8 +3,7 @@ import { Destination } from "../models/destination.model.js";
 
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
-  const name  = "munnar";
-  console.log(name);
+  const {name}  = req.body;
 
   try {
     const destination = await Destination.findOne({ name });

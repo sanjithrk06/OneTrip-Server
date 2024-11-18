@@ -9,7 +9,8 @@ import { getDestinationByName,
 const router = express.Router();
 
 router.post("/create", createDestination); // Create
-router.get('/single-page/:name', getDestinationByName); // Read(by Name)
+// router.get('/single-page/', getDestinationByName); // Read(by Name)
+router.post('/single-page/', getDestinationByName); // Read(by Name)
 router.get("/", getAllDestinations); // Read (all)
 router.put("/:name", updateDestination); // Update
 router.delete("/:name", deleteDestination); // Delete
