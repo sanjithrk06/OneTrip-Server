@@ -40,12 +40,10 @@ export const createDestination = async (req, res) => {
     });
 
     await newDestination.save();
-    res
-      .status(201)
-      .json({
-        message: "Destination created successfully",
-        data: newDestination,
-      });
+    res.status(201).json({
+      message: "Destination created successfully",
+      data: newDestination,
+    });
   } catch (error) {
     console.error("Error creating destination:", error.message);
     res.status(500).json({ message: "Server error", error });
@@ -68,12 +66,10 @@ export const updateDestination = async (req, res) => {
       return res.status(404).json({ message: "Destination not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Destination updated successfully",
-        data: updatedDestination,
-      });
+    res.status(200).json({
+      message: "Destination updated successfully",
+      data: updatedDestination,
+    });
   } catch (error) {
     console.error("Error updating destination:", error.message);
     res.status(500).json({ message: "Server error", error });
@@ -91,12 +87,10 @@ export const deleteDestination = async (req, res) => {
       return res.status(404).json({ message: "Destination not found" });
     }
 
-    res
-      .status(200)
-      .json({
-        message: "Destination deleted successfully",
-        data: deletedDestination,
-      });
+    res.status(200).json({
+      message: "Destination deleted successfully",
+      data: deletedDestination,
+    });
   } catch (error) {
     console.error("Error deleting destination:", error.message);
     res.status(500).json({ message: "Server error", error });

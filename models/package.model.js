@@ -6,7 +6,7 @@ const AgendaSchema = new mongoose.Schema({
     required: true,
   },
   description: {
-    type: [String],
+    type: String,
     required: true,
   },
 });
@@ -16,10 +16,12 @@ const PackageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  location: {
-    type: [String],
-    required: true,
-  },
+  location: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   duration: {
     nights: {
       type: Number,
@@ -38,10 +40,12 @@ const PackageSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  languages: {
-    type: [String],
-    required: true,
-  },
+  languages: [
+    {
+      type: String,
+      required: true,
+    },
+  ],
   description: {
     type: String,
     required: true,
@@ -53,6 +57,10 @@ const PackageSchema = new mongoose.Schema({
   price: {
     type: Number,
     required: true,
+  },
+  image: {
+    type: [String], // Stores an array of image names for the gallery
+    required: false,
   },
 });
 
