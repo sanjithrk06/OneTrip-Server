@@ -1,26 +1,26 @@
-// const Destination = require('../models/destination.model.js')
 import { Destination } from "../models/destination.model.js";
 
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
-  const {name}  = req.body;
+  const { name } = req.body;
 
   try {
     const destination = await Destination.findOne({ name });
     // console.log(destination)
     if (!destination) {
-      return res.status(404).json({ message: 'Destination not found' });
+      return res.status(404).json({ message: "Destination not found" });
     }
-    res.status(200).json({ data:destination});
+    res.status(200).json({ data: destination });
   } catch (error) {
-    console.log(error.message)
-    res.status(500).json({ message: 'Server error', error });
+    console.log(error.message);
+    res.status(500).json({ message: "Server error", error });
   }
 };
 
 // Create a new destination
 export const createDestination = async (req, res) => {
-  const { name, title, subTitle, imgSrc, stays, gallery, about, spots } = req.body;
+  const { name, title, subTitle, imgSrc, stays, gallery, about, spots } =
+    req.body;
 
   try {
     const existingDestination = await Destination.findOne({ name });
@@ -40,7 +40,12 @@ export const createDestination = async (req, res) => {
     });
 
     await newDestination.save();
-    res.status(201).json({ message: "Destination created successfully", data: newDestination });
+    res
+      .status(201)
+      .json({
+        message: "Destination created successfully",
+        data: newDestination,
+      });
   } catch (error) {
     console.error("Error creating destination:", error.message);
     res.status(500).json({ message: "Server error", error });
@@ -63,7 +68,12 @@ export const updateDestination = async (req, res) => {
       return res.status(404).json({ message: "Destination not found" });
     }
 
-    res.status(200).json({ message: "Destination updated successfully", data: updatedDestination });
+    res
+      .status(200)
+      .json({
+        message: "Destination updated successfully",
+        data: updatedDestination,
+      });
   } catch (error) {
     console.error("Error updating destination:", error.message);
     res.status(500).json({ message: "Server error", error });
@@ -81,7 +91,12 @@ export const deleteDestination = async (req, res) => {
       return res.status(404).json({ message: "Destination not found" });
     }
 
-    res.status(200).json({ message: "Destination deleted successfully", data: deletedDestination });
+    res
+      .status(200)
+      .json({
+        message: "Destination deleted successfully",
+        data: deletedDestination,
+      });
   } catch (error) {
     console.error("Error deleting destination:", error.message);
     res.status(500).json({ message: "Server error", error });
