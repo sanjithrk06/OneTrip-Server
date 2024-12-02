@@ -12,6 +12,10 @@ const AgendaSchema = new mongoose.Schema({
 });
 
 const PackageSchema = new mongoose.Schema({
+  packageId: {
+    type: String,
+    required: true,
+  },
   name: {
     type: String,
     required: true,
