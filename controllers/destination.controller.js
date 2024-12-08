@@ -1,4 +1,5 @@
 import { Destination } from "../models/destination.model.js";
+import { Category } from "../models/category.model.js";
 
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
@@ -19,7 +20,7 @@ export const getDestinationByName = async (req, res) => {
 
 // Create a new destination
 export const createDestination = async (req, res) => {
-  const { name, title, subTitle, imgSrc, stays, gallery, about, spots } =
+  const { name, title, subTitle, imgSrc, stays, gallery, about, spots, categoryId } =
     req.body;
 
   try {
@@ -37,6 +38,7 @@ export const createDestination = async (req, res) => {
       gallery,
       about,
       spots,
+      category: categoryId,
     });
 
     await newDestination.save();
@@ -53,17 +55,31 @@ export const createDestination = async (req, res) => {
 // Update a destination by name
 export const updateDestination = async (req, res) => {
   const { name } = req.params;
-  const updates = req.body;
+  const { categoryId, ...updates } = req.body;
 
   try {
     const updatedDestination = await Destination.findOneAndUpdate(
       { name },
       { $set: updates },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
     if (!updatedDestination) {
       return res.status(404).json({ message: "Destination not found" });
+    }
+
+    if (categoryId) {
+      const category = await Category.findById(categoryId);
+      if (!category) {
+        return res.status(404).json({ message: "Category not found" });
+      }
+
+      updatedDestination.category = categoryId;
+      await updatedDestination.save();
+
+      // Optionally, update the category's destination list
+      category.destinations.push(updatedDestination._id);
+      await category.save();
     }
 
     res.status(200).json({
