@@ -5,7 +5,7 @@ import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import { connectDB } from "./db/connectDB.js";
-import { authRoute, destinationRoute, packageRoute } from "./routes/route.js";
+import { authRoute, destinationRoute, packageRoute, categoryRoute } from "./routes/route.js";
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -22,6 +22,8 @@ app.use("/api/auth", authRoute);
 app.use("/api/destinationPage", destinationRoute);
 
 app.use("/api/package", packageRoute);
+
+app.use("/api/category", categoryRoute);
 
 // Start server
 app.listen(PORT, () => {
