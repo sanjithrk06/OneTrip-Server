@@ -31,7 +31,9 @@ const DestinationSchema = new mongoose.Schema({
   stays: [StaySchema],
   gallery: [String], // Array of image URLs
   about: String,
-  spots: [SpotSchema]
+  spots: [SpotSchema],
+  category: { type: mongoose.Schema.Types.ObjectId, ref: "Category" },
+
 });
 
 export const Destination = mongoose.model('Destination', DestinationSchema);
