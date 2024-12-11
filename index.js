@@ -10,6 +10,7 @@ import {
   destinationRoute,
   packageRoute,
   paymentRoute,
+  categoryRoute,
 } from "./routes/route.js";
 
 const app = express();
@@ -29,6 +30,8 @@ app.use("/api/destinationPage", destinationRoute);
 app.use("/api/package", packageRoute);
 
 app.use("/api/payment", paymentRoute);
+
+app.use("/api/category", categoryRoute);
 
 // Start server
 app.listen(PORT, () => {
