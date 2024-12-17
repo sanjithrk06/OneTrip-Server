@@ -34,13 +34,10 @@ export const uploadImageInBucket = async (fileBuffer, mimeType) => {
       ContentType: mimeType,
     };
 
-    console.log("before upload");
-
     const command = new PutObjectCommand(params);
     await s3.send(command);
-    console.log("after upload");
+    console.log(imgName);
 
-    console.log("Image uploaded successfully:", imgName);
     return imgName;
   } catch (error) {
     console.error("Error uploading image:", error);
@@ -59,38 +56,18 @@ export const getImageURL = async (imgName) => {
       throw new Error("Image name is missing or undefined");
     }
 
-    console.log("Generating signed URL for image:", imgName);
-
     const getObjectParams = {
       Bucket: bucketName,
       Key: imgName,
     };
 
-    console.log("GetObject parameters:", getObjectParams);
-
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // URL valid for 1 hour
+    console.log(url);
 
-    console.log("Generated signed URL:", url);
     return url;
   } catch (error) {
     console.error("Error generating signed URL for image:", imgName, error);
     throw new Error("Failed to generate signed URL");
   }
 };
-
-/**
- * Example usage:
- * Uncomment below lines to test the upload and get URL functionality.
- */
-
-// Example: Upload an image
-// const filePath = "./example-image.jpg";
-// const fileBuffer = fs.readFileSync(filePath);
-// const mimeType = "image/jpeg";
-// uploadImageInBucket(fileBuffer, mimeType).then((imgName) => {
-//   // Example: Get signed URL for the uploaded image
-//   getImageURL(imgName).then((url) => {
-//     console.log("Image URL:", url);
-//   });
-// });

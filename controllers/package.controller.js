@@ -11,8 +11,7 @@ export const getAllPackages = async (req, res) => {
 
     const packagesWithUrls = await Promise.all(
       packages.map(async (pkg) => {
-        pkg = pkg.toObject(); // Convert mongoose document to plain object
-        console.log("Package imgSrc:", pkg.image);
+        pkg = pkg.toObject();
 
         if (pkg.image) {
           try {
@@ -57,6 +56,41 @@ export const getPackage = async (req, res) => {
   }
 };
 
+// Get a package by packageId
+export const getPackageByPackageId = async (req, res) => {
+  const { packageId } = req.params;
+
+  try {
+    // Find package by packageId
+    const tourPackage = await Package.findOne({ packageId });
+
+    if (!tourPackage) {
+      return res.status(404).json({ message: "Package not found" });
+    }
+
+    // Attach signed URLs for images
+    const packageWithUrls = tourPackage.toObject(); // Convert mongoose document to plain object
+    if (packageWithUrls.image && packageWithUrls.image.length > 0) {
+      try {
+        packageWithUrls.image = await Promise.all(
+          packageWithUrls.image.map(async (img) => await getImageURL(img))
+        );
+      } catch (error) {
+        console.warn(
+          `Failed to generate URLs for package ${tourPackage._id}:`,
+          error
+        );
+        packageWithUrls.image = [];
+      }
+    }
+
+    res.status(200).json(packageWithUrls);
+  } catch (error) {
+    console.error("Failed to fetch package by packageId:", error);
+    res.status(500).json({ message: "Failed to fetch package", error });
+  }
+};
+
 // Create a new package with image upload
 export const createPackage = async (req, res) => {
   try {
@@ -79,7 +113,6 @@ export const createPackage = async (req, res) => {
 
     // Handle image upload
     if (req.file) {
-      console.log("File received:", req.file); // Log the file details for debugging
       const imgName = await uploadImageInBucket(
         req.file.buffer,
         req.file.mimetype
