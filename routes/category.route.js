@@ -13,9 +13,9 @@ router.get("/:name", getCategoryByName);
 router.get("/", getAllCategories);
 
 // Update a category by name
-router.put("/:name", updateCategory);
+router.put("/:id", updateCategory);
 
 // Delete a category by name
-router.delete("/:name", deleteCategory);
+router.delete("/:id", deleteCategory);
 
 export default router;
