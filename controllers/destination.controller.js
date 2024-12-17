@@ -4,9 +4,11 @@ import { Category } from "../models/category.model.js";
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
   const { name } = req.body;
+  console.log(name)
 
   try {
-    const destination = await Destination.findOne({ name });
+    // const destination = await Destination.findOne({ name });
+    const destination = await Destination.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } });
     // console.log(destination)
     if (!destination) {
       return res.status(404).json({ message: "Destination not found" });
