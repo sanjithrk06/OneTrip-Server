@@ -1,16 +1,17 @@
-import express from 'express';
-import { getDestinationByName,
-    updateDestination,
-    createDestination,
-    getAllDestinations,
-    deleteDestination
- } from '../controllers/destination.controller.js';
+import express from "express";
+import {
+  getDestinationByName,
+  updateDestination,
+  createDestination,
+  getAllDestinations,
+  deleteDestination,
+} from "../controllers/destination.controller.js";
 
 const router = express.Router();
 
 router.post("/create", createDestination); // Create
 // router.get('/single-page/', getDestinationByName); // Read(by Name)
-router.post('/single-page/', getDestinationByName); // Read(by Name)
+router.post("/single-page/", getDestinationByName); // Read(by Name)
 router.get("/", getAllDestinations); // Read (all)
 router.put("/:name", updateDestination); // Update
 router.delete("/:name", deleteDestination); // Delete
