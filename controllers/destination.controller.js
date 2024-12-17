@@ -138,7 +138,9 @@ export const getDestinationByName = async (req, res) => {
   const { name } = req.body;
 
   try {
-    const destination = await Destination.findOne({ name });
+    const destination = await Destination.findOne({
+      name: { $regex: new RegExp("^" + name + "$", "i") },
+    });
 
     if (!destination) {
       return res.status(404).json({ message: "Destination not found" });
@@ -164,7 +166,8 @@ export const getDestinationByName = async (req, res) => {
 // Create a new destination
 export const createDestination = async (req, res) => {
   try {
-    const { name, title, subTitle, stays, gallery, about, spots, categoryId } = req.body;
+    const { name, title, subTitle, stays, gallery, about, spots, categoryId } =
+      req.body;
 
     const imgFile = req.file;
     console.log(req.body);
