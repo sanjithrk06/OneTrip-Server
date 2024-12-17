@@ -3,21 +3,37 @@ import { Destination } from "../models/destination.model.js";
 
 // Create a new category
 export const createCategory = async (req, res) => {
-  const { name, description } = req.body;
+  const { name, description, destinations } = req.body;
 
   try {
+    // Check if category already exists
     const existingCategory = await Category.findOne({ name });
     if (existingCategory) {
       return res.status(400).json({ message: "Category already exists" });
     }
 
+    // Validate that all provided destination IDs are valid
+    if (destinations && destinations.length > 0) {
+      // Find all the destinations with the provided IDs
+      const validDestinations = await Destination.find({ '_id': { $in: destinations } });
+
+      // If the number of valid destinations is different from the provided ones, some are invalid
+      if (validDestinations.length !== destinations.length) {
+        return res.status(400).json({ message: "Some destination IDs are invalid." });
+      }
+    }
+
+    // Create a new category with the provided data
     const newCategory = new Category({
       name,
       description,
-      destinations: [], // Initially no destinations
+      destinations: destinations || [],  // Use the provided destinations
     });
 
+    // Save the category
     await newCategory.save();
+
+    // Respond with the created category
     res.status(201).json({
       message: "Category created successfully",
       data: newCategory,
@@ -64,25 +80,37 @@ export const getAllCategories = async (req, res) => {
   }
 };
 
-// Update a category by name
+// Update a category (with validation for destination IDs)
 export const updateCategory = async (req, res) => {
-  const { name } = req.params;
-  const updates = req.body;
+  const { id } = req.params;  // Now using the `id` parameter
+  const { description, destinations } = req.body;
 
   try {
-    const updatedCategory = await Category.findOneAndUpdate(
-      { name },
-      { $set: updates },
-      { new: true } // Return the updated document
-    );
-
-    if (!updatedCategory) {
+    // Find the category by its _id (not by name)
+    const category = await Category.findById(id);
+    if (!category) {
       return res.status(404).json({ message: "Category not found" });
     }
 
+    // Validate that all provided destination IDs are valid
+    if (destinations && destinations.length > 0) {
+      const validDestinations = await Destination.find({ '_id': { $in: destinations } });
+
+      if (validDestinations.length !== destinations.length) {
+        return res.status(400).json({ message: "Some destination IDs are invalid." });
+      }
+
+      category.destinations = destinations;
+    }
+
+    category.description = description || category.description;
+
+    // Save the updated category
+    await category.save();
+
     res.status(200).json({
       message: "Category updated successfully",
-      data: updatedCategory,
+      data: category,
     });
   } catch (error) {
     console.error("Error updating category:", error.message);
@@ -90,12 +118,13 @@ export const updateCategory = async (req, res) => {
   }
 };
 
-// Delete a category by name
+// Delete a category by _id
 export const deleteCategory = async (req, res) => {
-  const { name } = req.params;
+  const { id } = req.params;  // 'id' in the route, which refers to _id in the DB
 
   try {
-    const deletedCategory = await Category.findOneAndDelete({ name });
+    // Use _id to find and delete the category
+    const deletedCategory = await Category.findByIdAndDelete(id);
 
     if (!deletedCategory) {
       return res.status(404).json({ message: "Category not found" });
