@@ -132,6 +132,7 @@
 import { Destination } from "../models/destination.model.js";
 import { Category } from "../models/category.model.js";
 import { uploadImageInBucket, getImageURL } from "./image.controller.js";
+import mongoose from "mongoose";
 
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
@@ -163,53 +164,62 @@ export const getDestinationByName = async (req, res) => {
   }
 };
 
-// Create a new destination
 export const createDestination = async (req, res) => {
   try {
-    const { name, title, subTitle, stays, gallery, about, spots, categoryId } =
-      req.body;
+    const { name, title, subTitle, about, categoryId } = req.body;
 
-    const imgFile = req.file;
-    console.log(req.body);
-    console.log(req.file);
+    // Parse stays and spots from JSON strings into arrays
+    const stays = JSON.parse(req.body.stays || "[]");
+    const spots = JSON.parse(req.body.spots || "[]");
 
-    // Map `destinationId` to `name`
-    // const name = destinationId; // Use this line to fix the issue
-
+    // Check if the destination already exists
     const existingDestination = await Destination.findOne({ name });
     if (existingDestination) {
       return res.status(400).json({ message: "Destination already exists" });
     }
 
+    // Handle the main image upload
     let image = null;
-    if (imgFile) {
-      image = await uploadImageInBucket(imgFile.buffer, imgFile.mimetype);
-    }
-
-    let gallerySrc = [];
-    if (gallery && gallery.length > 0) {
-      gallerySrc = await Promise.all(
-        gallery.map(
-          async (file) => await uploadImageInBucket(file.buffer, file.mimetype)
-        )
+    if (req.files.image) {
+      // Upload the image to the bucket and get the image URL
+      image = await uploadImageInBucket(
+        req.files.image[0].buffer,
+        req.files.image[0].mimetype
       );
     }
 
+    // Handle the gallery upload
+    let gallerySrc = [];
+    if (req.files.gallery) {
+      gallerySrc = await Promise.all(
+        req.files.gallery.map(async (file) => {
+          return await uploadImageInBucket(file.buffer, file.mimetype);
+        })
+      );
+    }
+
+    // Validate categoryId as ObjectId
+    if (!mongoose.Types.ObjectId.isValid(categoryId)) {
+      return res.status(400).json({ message: "Invalid category ID" });
+    }
+
+    // Create a new destination with the provided data
     const newDestination = new Destination({
-      name, // Use `name` here
+      name,
       title,
       subTitle,
-      image,
-      gallery: gallerySrc,
+      image, // The image URL
+      gallery: gallerySrc, // The gallery URLs
       stays,
       about,
       spots,
       category: categoryId,
     });
 
-    console.log(newDestination);
-
+    // Save the destination to the database
     await newDestination.save();
+
+    // Return success response
     res.status(201).json({
       message: "Destination created successfully",
       data: newDestination,
@@ -227,11 +237,13 @@ export const updateDestination = async (req, res) => {
   const imgFile = req.file; // Image file from request
 
   try {
+    // Upload image if provided
     if (imgFile) {
       const image = await uploadImageInBucket(imgFile.buffer, imgFile.mimetype);
       updates.image = image;
     }
 
+    // Handle the gallery upload if any
     if (gallery && gallery.length > 0) {
       updates.gallery = await Promise.all(
         gallery.map(
@@ -307,10 +319,18 @@ export const getAllDestinations = async (req, res) => {
       destinations.map(async (destination) => {
         destination = destination.toObject();
         if (destination.image) {
-          destination.image = await getImageURL(destination.image);
+          try {
+            destination.image = await getImageURL(destination.image);
+          } catch (error) {
+            console.warn(
+              `Failed to generate URL for destination ${pkg._id}:`,
+              error
+            );
+            destination.image = null;
+          }
         }
         if (destination.gallery && destination.gallery.length > 0) {
-          destination.galleryUrls = await Promise.all(
+          destination.gallery = await Promise.all(
             destination.gallery.map((image) => getImageURL(image))
           );
         }

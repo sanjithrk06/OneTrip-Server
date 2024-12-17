@@ -36,6 +36,7 @@ export const uploadImageInBucket = async (fileBuffer, mimeType) => {
 
     const command = new PutObjectCommand(params);
     await s3.send(command);
+    console.log(imgName);
 
     return imgName;
   } catch (error) {
@@ -62,6 +63,7 @@ export const getImageURL = async (imgName) => {
 
     const command = new GetObjectCommand(getObjectParams);
     const url = await getSignedUrl(s3, command, { expiresIn: 3600 }); // URL valid for 1 hour
+    console.log(url);
 
     return url;
   } catch (error) {

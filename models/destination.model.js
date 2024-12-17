@@ -36,7 +36,7 @@
 // });
 
 // export const Destination = mongoose.model("Destination", DestinationSchema);
-import mongoose from "mongoose";
+import mongoose from "mongoose"; // Ensure mongoose is imported
 
 const DestinationSchema = new mongoose.Schema({
   name: { type: String, required: true }, // `name` is required
