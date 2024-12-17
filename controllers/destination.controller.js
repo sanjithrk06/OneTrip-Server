@@ -140,16 +140,8 @@ export const getDestinationByName = async (req, res) => {
   console.log(name)
 
   try {
-<<<<<<< HEAD
-    // const destination = await Destination.findOne({ name });
     const destination = await Destination.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } });
-    // console.log(destination)
-=======
-    const destination = await Destination.findOne({
-      name: { $regex: new RegExp("^" + name + "$", "i") },
-    });
 
->>>>>>> a4d4ab4b514bd04488dcea33536c947e7720b73d
     if (!destination) {
       return res.status(404).json({ message: "Destination not found" });
     }
@@ -163,6 +155,8 @@ export const getDestinationByName = async (req, res) => {
         destination.gallery.map((image) => getImageURL(image))
       );
     }
+    
+    destination.gallery = destination.galleryUrls
 
     res.status(200).json({ data: destination });
   } catch (error) {

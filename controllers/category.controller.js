@@ -48,13 +48,9 @@ export const createCategory = async (req, res) => {
 export const getCategoryByName = async (req, res) => {
   const { name } = req.params;
   try {
-<<<<<<< HEAD
-    const category = await Category.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } }).populate("destinations");
-=======
     const category = await Category.findOne({
       name: { $regex: new RegExp("^" + name + "$", "i") },
     }).populate("destinations");
->>>>>>> a4d4ab4b514bd04488dcea33536c947e7720b73d
 
     if (!category) {
       return res.status(404).json({ message: "Category not found" });
