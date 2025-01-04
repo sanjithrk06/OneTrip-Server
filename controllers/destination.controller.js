@@ -137,11 +137,10 @@ import mongoose from "mongoose";
 // Get destination details by name
 export const getDestinationByName = async (req, res) => {
   const { name } = req.body;
+  console.log(name)
 
   try {
-    const destination = await Destination.findOne({
-      name: { $regex: new RegExp("^" + name + "$", "i") },
-    });
+    const destination = await Destination.findOne({ name: { $regex: new RegExp('^' + name + '$', 'i') } });
 
     if (!destination) {
       return res.status(404).json({ message: "Destination not found" });
@@ -156,6 +155,8 @@ export const getDestinationByName = async (req, res) => {
         destination.gallery.map((image) => getImageURL(image))
       );
     }
+    
+    destination.gallery = destination.galleryUrls
 
     res.status(200).json({ data: destination });
   } catch (error) {

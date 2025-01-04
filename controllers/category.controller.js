@@ -47,7 +47,6 @@ export const createCategory = async (req, res) => {
 // Get a category by name
 export const getCategoryByName = async (req, res) => {
   const { name } = req.params;
-
   try {
     const category = await Category.findOne({
       name: { $regex: new RegExp("^" + name + "$", "i") },
