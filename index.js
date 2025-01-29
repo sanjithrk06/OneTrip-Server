@@ -19,16 +19,11 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: (origin, callback) => {
-      const allowedOrigins = ["https://onetriptravel.netlify.app"];
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
+    origin: "https://onetriptravel.netlify.app",
+    credentials: true,
   })
 );
+
 // Middlewares
 app.use(express.json());
 app.use(cookieParser());
