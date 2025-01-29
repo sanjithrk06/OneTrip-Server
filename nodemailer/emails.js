@@ -2,6 +2,7 @@ import {
   PASSWORD_RESET_REQUEST_TEMPLATE,
   PASSWORD_RESET_SUCCESS_TEMPLATE,
   VERIFICATION_EMAIL_TEMPLATE,
+  WELCOME_EMAIL,
 } from "./emailTemplates.js";
 import { transporter } from "./nodemailer.config.js";
 
@@ -32,10 +33,7 @@ export const sendWelcomeEmail = async (email, name) => {
       from: "One Trip",
       to: email,
       subject: "Welcome to One Trip",
-      html: "<h1>Login Successfully, Welcome {name}</h1>".replace(
-        "{name}",
-        name
-      ),
+      html: WELCOME_EMAIL,
       category: "Welcome Email",
     });
 
