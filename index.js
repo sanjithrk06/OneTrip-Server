@@ -11,6 +11,7 @@ import {
   packageRoute,
   paymentRoute,
   categoryRoute,
+  imageRoute,
 } from "./routes/route.js";
 
 const app = express();
@@ -32,6 +33,8 @@ app.use("/api/package", packageRoute);
 app.use("/api/payment", paymentRoute);
 
 app.use("/api/category", categoryRoute);
+
+app.use("/api/image", imageRoute);
 
 // Start server
 app.listen(PORT, () => {

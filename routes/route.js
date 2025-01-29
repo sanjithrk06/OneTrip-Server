@@ -3,3 +3,4 @@ export { default as destinationRoute } from "./destination.route.js";
 export { default as packageRoute } from "./package.route.js";
 export { default as paymentRoute } from "./payment.route.js";
 export { default as categoryRoute } from "./category.route.js";
+export { default as imageRoute } from "./image.route.js";

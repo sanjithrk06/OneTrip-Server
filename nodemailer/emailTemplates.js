@@ -93,3 +93,207 @@ export const PASSWORD_RESET_REQUEST_TEMPLATE = `
 </body>
 </html>
 `;
+
+export const WELCOME_EMAIL = `<!DOCTYPE html>
+      <html lang="en">
+        <head>
+          <meta charset="UTF-8" />
+          <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+          <title>Thanks For Registration</title>
+          <style type="text/css">
+            body {
+              margin: 0;
+              background-color: #cccccc;
+              font-family: Verdana, Geneva, Tahoma, sans-serif;
+            }
+            table {
+              border-spacing: 0;
+            }
+            td {
+              padding: 0;
+            }
+            img {
+              border: 0;
+            }
+            .wrapper {
+              width: 100%;
+              table-layout: fixed;
+              background-color: #cccccc;
+            }
+            .main {
+              width: 100%;
+              max-width: 600px;
+              background-color: #ffffff;
+              margin: 0 auto;
+            }
+            h1,
+            h2,
+            h3,
+            h4,
+            h5,
+            h6,
+            p {
+              color: #000000;
+            }
+            .danger {
+              color: #c00e0e;
+            }
+            a {
+              text-decoration: none;
+            }
+            .footer a {
+              margin: 0px 8px;
+            }
+          </style>
+        </head>
+        <body>
+          <center class="wrapper">
+            <table class="main" width="100%">
+              <!-- top line -->
+              <tr>
+                <td height="10px" style="background-color: #319b31"></td>
+              </tr>
+              <!-- image  -->
+              <tr>
+                <td>
+                  <img
+                    src="https://res.cloudinary.com/dvfbca8ej/image/upload/v1673353155/prayukti/staticAssets/email_header_g3zomm.jpg"
+                    alt="Hero Image"
+                    width="100%"
+                  />
+                </td>
+              </tr>
+              <!-- Greatings  -->
+              <tr>
+                <td style="padding-left: 2rem; padding-right: 2rem">
+                  <h4>Hello sanjith,</h4>
+                  <h6 style="font-size: 12px">
+                    Greetings from BIT V-PRAYUKTI'23 Organizing Team.
+                  </h6>
+                  <h6 style="font-size: 12px;font-weight: 400;">
+                    Thanks for registering <b>'Paper Presentation'</b> at <b>BIT V-PRAYUKTI'23.🤝</b>
+                  </h6>
+                </td>
+              </tr>
+              <!-- Team id  -->
+              <tr>
+                <td>
+                  <center>
+                    <h3>Ticket ID : T001</h3>
+                  </center>
+                </td>
+              </tr>
+              <!-- Instructions  -->
+              <tr>
+                <td style="padding-left: 2rem; padding-right: 2rem">
+                  <h6 style="font-size: 14px;font-weight: 400;">
+                    Here's some important information about the event
+                  </h6>
+                  <h6
+                    style="
+                      font-size: 12px;
+                      line-height: 18px;
+                      word-spacing: 8px;
+                      text-align: justify;
+                      font-weight: 400;
+                    "
+                  >
+                    BIT V-PRAYUKTI'23 is a National Level Event organised by the special labs in association with the department of Electronics and Communication Engineering at Bannari Amman Institute of Technology, Sathyamangalam. Since you have registered for this event, Your Registration is under review. Once your registration is confirmed, A registration ticket will be sent to you through Whatsapp shortly. Participants are requested to bring the generated tickets along with them during the event.
+                  </h6>
+                </td>
+              </tr>
+              <!-- Get more tickets  -->
+              <tr>
+                <td style="padding: 1rem 0">
+                  <center>
+                    <a
+                      style="
+                        text-decoration: none;
+                        text-transform: uppercase;
+                        font-weight: 500;
+                        padding: 14px 1rem;
+                        background-color: #319b31;
+                        color: white;
+                        border-radius: 8px;
+                      "
+                      href="https://bitvprayukti.bitsathy.ac.in/tickets"
+                      >Get more Tickets</a
+                    >
+                  </center>
+                </td>
+              </tr>
+              <!-- queries  -->
+              <tr>
+                <td style="padding-left: 2rem; padding-right: 2rem">
+                  <h6 style="font-size: 12px;font-weight: 400;">
+                    <b>For any Queries:</b> <br />
+                    Please mail us at: <a href="mailto:bitvprayukti@bitsathy.ac.in">bitvprayukti@bitsathy.ac.in</a>
+                  </h6>
+                  <h6
+                    style="
+                      font-size: 12px;
+                      line-height: 18px;
+                      word-spacing: 8px;
+                      text-align: justify;
+                    "
+                  >
+                    Thanks & Regards, <br />
+                    BIT V-PRAYUKTI'23, <br />
+                    Organizing Team, <br />
+                    Bannari Amman Institute of Technology, <br />
+                    Sathyamangalam - 638401 <br />
+                    Ph: 6382901171
+                  </h6>
+                  <h6
+                    style="
+                      font-size: 12px;
+                      line-height: 18px;
+                      word-spacing: 8px;
+                      text-align: justify;
+                    "
+                  >
+                    <i><span class="danger">DISCLAIMER</span>: Dear Candidate, You are
+                    receiving this email because you have registered your E-mail ID
+                    with Bannari Amman Institute of Technology (BIT V-PRAYUKTI'23).</i>
+                  </h6>
+                </td>
+              </tr>
+              <!-- Footer  -->
+              <tr class="footer" style="background-color: #000000">
+                <td style="margin: 0px auto; padding: 1rem">
+                  <center>
+                    <a href="https://wa.me/+916382901171">
+                      <img
+                        src="https://res.cloudinary.com/dvfbca8ej/image/upload/v1673411155/prayukti/staticAssets/whatsapp_bakmpo.png"
+                        width="40px"
+                        height="40px"
+                        alt="whatsapp"
+                      />
+                    </a>
+                    <a href="https://www.instagram.com/vprayuktibit/">
+                      <img
+                        src="https://res.cloudinary.com/dvfbca8ej/image/upload/v1673411156/prayukti/staticAssets/instagram_pzk4hc.png"
+                        width="40px"
+                        height="40px"
+                        alt="instagram"
+                      />
+                    </a>
+                  </center>
+                  <center>
+                    <h6 style="font-size: 12px; color: #fff">
+                      Copyright © 2023 , All rights reserved.
+                    </h6>
+                    <h6 style="font-size: 12px; color: #fff">
+                      Our mailing address is: <br />
+                      <a href="mailto:bitvprayukti@bitsathy.ac.in"
+                        >bitvprayukti@bitsathy.ac.in</a
+                      >
+                    </h6>
+                  </center>
+                </td>
+              </tr>
+            </table>
+          </center>
+        </body>
+      </html>`;
